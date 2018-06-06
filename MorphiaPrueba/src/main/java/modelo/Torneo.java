@@ -92,5 +92,10 @@ public class Torneo {
 		return null;
 	}
 	
+	///otros
+	public String toString() {
+		return this.nombre;
+	}
+	
 	
 }
