@@ -13,7 +13,7 @@ public class Equipo {
 	@Id
 	protected ObjectId id;
 	protected String nombre;
-	@Reference
+	@Reference(lazy=true)
 	protected List<Jugador> jugadores;
 	
 	//constructores

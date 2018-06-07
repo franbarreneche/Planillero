@@ -1,5 +1,6 @@
 package controladores;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -11,11 +12,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import modelo.Equipo;
 import modelo.Jugador;
 import modelo.Partido;
@@ -82,8 +89,20 @@ public class EController implements Initializable {
 	    }
 
 	    @FXML
-	    void agregarFecha(ActionEvent event) {
-
+	    void agregarFecha(ActionEvent event) throws IOException {
+	    	//Stage stageTheEventSourceNodeBelongs = (Stage) ((Node)event.getSource()).getScene().getWindow();
+	    	// OR
+	    	Stage stage = (Stage) boton_agregarFecha.getScene().getWindow();
+	    	// these two of them return the same stage
+	    	// Swap screen
+	    	//FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AgregarPartidos.fxml"));
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/AgregarPartidos.fxml"));
+	    	
+	    	Parent root = loader.load();
+	    	
+	    	
+	    	//stage.setScene(new Scene(root));
+	    	boton_agregarFecha.getScene().setRoot(root);
 	    }
 
 	    @FXML
@@ -95,6 +114,10 @@ public class EController implements Initializable {
 	    void mostrarEquipos(ActionEvent event) {
 	    	ObservableList<Equipo> equipos = FXCollections.observableList(combo.getValue().getEquipos());
 	    	lista_equipos.setItems(equipos);
+	    	
+
+	    	ObservableList<Partido> partidos = FXCollections.observableList(combo.getValue().getPartidos());
+	    	lista_partidos.setItems(partidos);
 	    }
 	    
 	    

@@ -13,9 +13,9 @@ public class Torneo {
 	@Id
 	protected ObjectId id;
 	protected String nombre;
-	@Reference
+	@Reference(lazy=true)
 	protected List<Partido> partidos;
-	@Reference
+	@Reference(lazy=true)
 	protected List<Equipo> equipos;
 	protected String sede;
 	

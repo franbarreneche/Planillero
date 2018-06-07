@@ -9,9 +9,9 @@ import org.mongodb.morphia.annotations.Reference;
 public class Partido {
 	@Id
 	protected ObjectId id;
-	@Reference
+	@Reference(lazy=true)
 	protected Equipo local;
-	@Reference
+	@Reference(lazy=true)
 	protected Equipo visitante;
 	protected String hora;
 	protected String fecha;
