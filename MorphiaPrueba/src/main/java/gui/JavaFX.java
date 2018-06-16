@@ -1,5 +1,6 @@
 package gui;
 
+import controladores.SceneController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +19,7 @@ public class JavaFX extends Application{
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		try {
+		/*try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("E.fxml"));
 	        Parent root = loader.load();
 	        Scene scene = new Scene(root);
@@ -27,7 +28,12 @@ public class JavaFX extends Application{
 	        primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
+		}*/
+		
+		Stage primaryStage = new Stage();		primaryStage.setTitle("Planillero Master");        
+        SceneController controladorescenas = SceneController.getInstance(primaryStage);
+		primaryStage.show();
+		controladorescenas.activatePrincipal();
 	}
 	
 	

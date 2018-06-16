@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 
 import dao.EquipoDaoMorphia;
 import dao.JugadorDaoMorphia;
+import dao.PartidoDao;
+import dao.PartidoDaoMorphia;
+import dao.TorneoDao;
 import dao.TorneoDaoMorphia;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,9 +20,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -41,6 +46,9 @@ public class EController implements Initializable {
 
 	    @FXML
 	    private Button boton_pdf;
+	    
+	    @FXML
+	    private Button boton_planillas;
 
 	    @FXML
 	    private ListView<Equipo> lista_equipos;
@@ -63,7 +71,8 @@ public class EController implements Initializable {
 	    	
 	    	combo.setItems(torneos);
 		}
-
+	    
+	    
 	    @FXML
 	    void buttonClicked(ActionEvent event) {
 
@@ -92,22 +101,54 @@ public class EController implements Initializable {
 	    void agregarFecha(ActionEvent event) throws IOException {
 	    	//Stage stageTheEventSourceNodeBelongs = (Stage) ((Node)event.getSource()).getScene().getWindow();
 	    	// OR
-	    	Stage stage = (Stage) boton_agregarFecha.getScene().getWindow();
+	    	//Stage stage = (Stage) boton_agregarFecha.getScene().getWindow();
 	    	// these two of them return the same stage
 	    	// Swap screen
 	    	//FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AgregarPartidos.fxml"));
-	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/AgregarPartidos.fxml"));
+	    	//FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/AgregarPartidos.fxml"));
 	    	
-	    	Parent root = loader.load();
+	    	//Parent root = loader.load();
 	    	
-	    	
+	    	//forma 1
 	    	//stage.setScene(new Scene(root));
-	    	boton_agregarFecha.getScene().setRoot(root);
+	    	//forma 2
+	    	//boton_agregarFecha.getScene().setRoot(root);
+	    	
+	    	
+	    	//forma nueva
+	    	if(combo.getValue()!=null) {
+		    	SceneController aux = SceneController.getInstance();
+		    	
+		    	aux.activateAgregarPartidos(combo.getValue());
+	    	}else {
+	    		Alert alert = new Alert(AlertType.ERROR);
+	    		alert.setTitle("Error");
+	    		alert.setHeaderText(null);
+	    		alert.setContentText("No se ha seleccionado ningún torneo.");
+	    		alert.showAndWait();
+	    	}
+	    }
+	    
+	    @FXML
+	    void abrirGenerarPlanillas(ActionEvent event) {
+	    	SceneController aux = SceneController.getInstance();
+	    	
+	    	aux.activateGenerarPlanillasPartidos();
 	    }
 
 	    @FXML
 	    void eliminarPartidos(ActionEvent event) {
-
+	    	Partido aEliminar = this.lista_partidos.getSelectionModel().getSelectedItem();
+	    	if(aEliminar != null) {
+	    		Torneo torneo = combo.getValue();
+	    		torneo.getPartidos().remove(aEliminar);
+	    		PartidoDao	daoP = new PartidoDaoMorphia();
+	    		daoP.eliminarPartido(aEliminar);
+	    		TorneoDao daoT = new TorneoDaoMorphia();
+	    		daoT.agregarTorneo(torneo);
+	    		//por ultimo actualizamos la lista de equipos visiblemente
+	    		this.lista_partidos.setItems(FXCollections.observableList(torneo.getPartidos()));
+	    	}
 	    }
 
 	    @FXML
