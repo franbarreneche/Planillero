@@ -2,6 +2,7 @@ package controladores;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -54,13 +55,14 @@ public class GenerarPlanillasController implements Initializable {
     		}
     				
     	}
+    	Collections.sort(partidosDia);
     	this.lista_partidos.setItems(partidosDia);
     }
     
     @FXML
     void generarPlanillasPartidos(ActionEvent event) {
     	try {
-			ExportadorPDF.exportarPDF(lista_partidos.getItems(),box_dia.getValue().toString());
+			ExportadorPDF.exportarPlanillasPDF(lista_partidos.getItems(),box_dia.getValue().toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,10 +71,13 @@ public class GenerarPlanillasController implements Initializable {
 
     @FXML
     void generarPlanillaHorarios(ActionEvent event) {
-
+    	try {
+			ExportadorPDF.exportarHorariosPDF(lista_partidos.getItems(),box_dia.getValue().toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-
-	
 	
 	
 

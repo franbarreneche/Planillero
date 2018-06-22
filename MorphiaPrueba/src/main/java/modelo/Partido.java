@@ -1,12 +1,14 @@
 package modelo;
 
+import java.time.LocalDateTime;
+
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity("partidos")
-public class Partido {
+public class Partido implements Comparable<Partido>{
 	@Id
 	protected ObjectId id;
 	@Reference(lazy=true)
@@ -78,15 +80,31 @@ public class Partido {
 	public String getMatchday() {
 		return this.matchday;
 	}
-	
-	
+		
 	//otros
 	public String toString() {
+		if(this.visitante!=null) 
 		return this.getLocal() + "  vs  " + 
-				this.getVisitante() + "  ||  Hora: " + 
+				visitante + "  ||  Hora: " + 
 				this.getHora() + "hs.  ||  Dia: " +
 				this.getFecha() + "  ||  Fecha: " +
-				this.getMatchday();		
+				this.getMatchday();
+		else return "Libre: "+this.getLocal().getNombre()+ " || Dia: "+this.getFecha()+" || Fecha: "+this.getMatchday();
+	}
+	
+	@Override
+	public boolean equals(Object p) {
+		if(p!=null) {
+		Partido aux = (Partido)p;
+		return this.id.compareTo(aux.id) == 0;
+		} else return false;
+	}
+	
+	public int compareTo(Partido p2) {
+		
+		LocalDateTime hora1 = LocalDateTime.parse(this.fecha+"T"+this.hora);
+		LocalDateTime hora2 = LocalDateTime.parse(p2.fecha+"T"+p2.hora);
+		return hora1.compareTo(hora2);
 	}
 	
 }

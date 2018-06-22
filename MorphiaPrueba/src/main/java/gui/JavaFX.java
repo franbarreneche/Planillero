@@ -30,11 +30,10 @@ public class JavaFX extends Application{
 			e.printStackTrace();
 		}*/
 		
-		Stage primaryStage = new Stage();		primaryStage.setTitle("Planillero Master");        
+		Stage primaryStage = new Stage(); primaryStage.setTitle("Planillero Master");        
         SceneController controladorescenas = SceneController.getInstance(primaryStage);
 		primaryStage.show();
 		controladorescenas.activatePrincipal();
 	}
-	
 	
 }

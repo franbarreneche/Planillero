@@ -36,8 +36,7 @@ public class MorphiaSingleton {
 	public Datastore getDatstore() {
 		return this.datastore;
 	}
-	
-	
+		
 	
 	
 }

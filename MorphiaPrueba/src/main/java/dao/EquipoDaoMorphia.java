@@ -37,5 +37,4 @@ public class EquipoDaoMorphia implements EquipoDao{
 	public Equipo obtenerEquipo(ObjectId id) {
 		return null;		
 	}
-
 }

@@ -41,4 +41,13 @@ public class Jugador {
 		return this.getNombre();
 	}
 	
+	@Override
+	public boolean equals(Object p) {
+		if(p!=null) {
+		Jugador aux = (Jugador)p;
+		return this.id.compareTo(aux.id) == 0;
+		} else return false;
+	}
+	
+	
 }

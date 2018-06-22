@@ -62,6 +62,10 @@ public class CargardorJugadores {
 	public static Torneo cargarTorneo(String nombre) {
 		Torneo torneo = new Torneo();
 		torneo.setNombre(nombre);
+		String sede;
+		if(nombre.contains("KDT")) sede = "KDT";
+		else sede = "Palermo";
+		torneo.setSede(sede);
 		
 		File[] files = new File("src/main/resources/torneos/"+nombre).listFiles();
 		//If this pathname does not denote a directory, then listFiles() returns null. 

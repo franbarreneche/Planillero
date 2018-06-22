@@ -37,5 +37,4 @@ public class JugadorDaoMorphia implements JugadorDao{
 	public void eliminarJugador(Jugador j) {
 		db.delete(j);
 	}
-
 }

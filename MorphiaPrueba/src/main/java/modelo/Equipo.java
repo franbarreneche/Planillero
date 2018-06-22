@@ -50,10 +50,19 @@ public class Equipo {
 	public List<Jugador> getJugadores(){
 		return  this.jugadores;
 	}
-	
-	
+		
 	//otros
 	public String toString() {
 		return this.nombre;
 	}
+	
+	@Override
+	public boolean equals(Object p) {
+		if(p!=null) {
+		Equipo aux = (Equipo)p;
+		return this.id.compareTo(aux.id) == 0;
+		} else return false;
+	}
+	
+	
 }

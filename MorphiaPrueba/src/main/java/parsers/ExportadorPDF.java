@@ -2,6 +2,8 @@ package parsers;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.itextpdf.io.font.FontConstants;
@@ -30,6 +32,8 @@ import com.itextpdf.layout.property.TabAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
+import dao.TorneoDao;
+import dao.TorneoDaoMorphia;
 import modelo.Jugador;
 import modelo.Partido;
 import modelo.Torneo;
@@ -40,8 +44,8 @@ public class ExportadorPDF {
 	private static final String LIBRE = "LIBRE";
 	private static final String TBD = "TBD";
 	
-	public static void exportarPDF(List<Partido> listaPartidos, String fecha) throws Exception{
-		String DEST = carpeta+"/"+ fecha+".pdf";
+	public static void exportarPlanillasPDF(List<Partido> listaPartidos, String fecha) throws Exception{
+		String DEST = carpeta+"/"+ fecha+"-planillas.pdf";
 		File file = new File(DEST);
         file.getParentFile().mkdirs();
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(file));
@@ -49,9 +53,9 @@ public class ExportadorPDF {
    	 	Document doc = new Document(pdfDoc);
    	 	
        for(Partido p: listaPartidos) {
-    	   if(!p.getHora().equals(TBD)) {
+    	   if(!p.getHora().equals(TBD) && p.getLocal() != null && p.getVisitante() != null) {
     		   armarPlanilla(doc,p);
-    		   doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+    		   if(listaPartidos.get(listaPartidos.size()-1)!= p)doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
     	   }
        }
              //CERRAR EL DOCUMENTO
@@ -69,9 +73,10 @@ public class ExportadorPDF {
         //TABLA INFO
         Table tablaInfo = new Table(4);
         tablaInfo.setFontSize(10);
-        tablaInfo.addCell("Dia: "+p.getFecha());
+        LocalDate aux = LocalDate.parse(p.getFecha());
+        tablaInfo.addCell("Dia: "+aux.getDayOfMonth()+"/"+aux.getMonthValue()+"/"+aux.getYear());
         tablaInfo.addCell("Hora: "+p.getHora());
-        tablaInfo.addCell("Sede ");
+        tablaInfo.addCell("Sede "+ encontrarTorneo(p).getSede());
         tablaInfo.addCell("Fecha: "+p.getMatchday());
         doc.add(tablaInfo);
         
@@ -189,6 +194,59 @@ public class ExportadorPDF {
         par.add("FIRMA");
         
         doc.add(par);
+	}
+	
+	public static void exportarHorariosPDF(List<Partido> listaPartidos, String fecha) throws Exception{
+		String DEST = carpeta+"/"+ fecha+"-horarios.pdf";
+		File file = new File(DEST);
+        file.getParentFile().mkdirs();
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(file));
+   	 	pdfDoc.setDefaultPageSize(PageSize.A4);//.rotate()
+   	 	Document doc = new Document(pdfDoc);
+   	 	//algoritmo
+   	 	armarHorarios(doc,listaPartidos);
+        //CERRAR EL DOCUMENTO
+        doc.close();
+	}
+	
+	private static void armarHorarios(Document doc, List<Partido> partidos) throws MalformedURLException {
+		//LOGO
+        Image image = new Image(ImageDataFactory.create(ExportadorPDF.class.getResource(LOGO).toString()));
+        image.setWidthPercent(30);
+        image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        image.setMarginBottom(10);
+        doc.add(image);
+        
+        //TABLA HORARIOS
+        List<Torneo> torneos = new ArrayList<Torneo>();
+        for(Partido p:partidos) {
+        	Torneo t = encontrarTorneo(p);
+        	if(t!=null && !torneos.contains(t)) torneos.add(t);
+        }
+        
+        for(Torneo t:torneos) {
+        	Table tabla = new Table(5); tabla.setMarginTop(10);
+        	tabla.addHeaderCell(new Cell(1,3).add(t.getNombre())); tabla.addHeaderCell("HORARIO");tabla.addHeaderCell("CANCHA");
+        	tabla.getHeader().setBackgroundColor(Color.BLACK);
+        	tabla.getHeader().setFontColor(Color.WHITE);
+        	for(Partido p:partidos) {
+        		if(p.getVisitante() != null && t.getPartidos().contains(p)) {
+        			tabla.addCell(new Cell(1,3).add(p.getLocal() + " vs " + p.getVisitante()));
+        			tabla.addCell(p.getHora()+" hs.");
+        			tabla.addCell("");
+        		}
+        	}
+        	doc.add(tabla);
+        }   
+	}
+	
+	private static Torneo encontrarTorneo(Partido p) {
+		TorneoDao daoT = new TorneoDaoMorphia();
+		List<Torneo> torneos = daoT.getTorneos();
+		for(Torneo t:torneos) {
+			if(t.getPartidos().contains(p)) return t;
+		}
+		return null;
 	}
 	
 	private static Cell createCell(String cont, int rowspan, int colspan) {

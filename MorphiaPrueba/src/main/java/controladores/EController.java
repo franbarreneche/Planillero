@@ -5,12 +5,18 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import dao.EquipoDao;
 import dao.EquipoDaoMorphia;
+import dao.JugadorDao;
 import dao.JugadorDaoMorphia;
 import dao.PartidoDao;
 import dao.PartidoDaoMorphia;
 import dao.TorneoDao;
 import dao.TorneoDaoMorphia;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +30,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -32,6 +40,7 @@ import modelo.Equipo;
 import modelo.Jugador;
 import modelo.Partido;
 import modelo.Torneo;
+import parsers.ExportadorCSV;
 
 public class EController implements Initializable {
 	
@@ -61,6 +70,12 @@ public class EController implements Initializable {
 
 	    @FXML
 	    private ListView<Partido> lista_partidos;
+	    
+	    @FXML
+	    private Button boton_agregarJugador;
+	    
+	    @FXML
+	    private TextField box_nombreJugador;
 
 	    @FXML
 	    private Button boton;
@@ -70,6 +85,8 @@ public class EController implements Initializable {
 	    	ObservableList<Torneo> torneos = FXCollections.observableList(daoT.getTorneos());
 	    	
 	    	combo.setItems(torneos);
+	    	
+	    	this.lista_partidos.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		}
 	    
 	    
@@ -89,7 +106,30 @@ public class EController implements Initializable {
 
 	    @FXML
 	    void generarCSV(ActionEvent event) {
-
+	    	List<Partido> seleccionados = lista_partidos.getSelectionModel().getSelectedItems();
+	    	if(seleccionados!=null && !seleccionados.isEmpty()) {
+	    		try {
+					ExportadorCSV.exportarPartidosCSV(seleccionados, combo.getValue());
+					
+					//mensaje de exito
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Carga Exitosa");
+					alert.setHeaderText(null);
+					alert.setContentText("El/los partidos se han cargado exitosamente");
+					alert.showAndWait();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}else {
+	    		//mensaje error
+	    		Alert alert = new Alert(AlertType.ERROR);
+	    		alert.setTitle("Error");
+	    		alert.setHeaderText(null);
+	    		alert.setContentText("No se ha seleccionado ningún partido.");
+	    		alert.showAndWait();
+	    	}
+	    	
 	    }
 
 	    @FXML
@@ -155,13 +195,30 @@ public class EController implements Initializable {
 	    void mostrarEquipos(ActionEvent event) {
 	    	ObservableList<Equipo> equipos = FXCollections.observableList(combo.getValue().getEquipos());
 	    	lista_equipos.setItems(equipos);
-	    	
+	    	//limpiar lista jugadores
+	    	lista_jugadores.getItems().clear();
 
 	    	ObservableList<Partido> partidos = FXCollections.observableList(combo.getValue().getPartidos());
 	    	lista_partidos.setItems(partidos);
 	    }
 	    
+	    @FXML
+	    void agregarJugador(ActionEvent event) {
+	    	String nombre = this.box_nombreJugador.getText();
+	    	if(nombre != null && !nombre.equals("")) {
+	    		JugadorDao daoJ = new JugadorDaoMorphia();
+	    		Jugador j = new Jugador(nombre);
+	    		daoJ.agregarJugador(j);
+	    		Equipo e = this.lista_equipos.getSelectionModel().getSelectedItem();
+	    		if(e!=null) {
+	    			EquipoDao daoE = new EquipoDaoMorphia();
+	    			e.agregarJugador(j);
+	    			lista_jugadores.getItems().add(j);
+	    			daoE.agregarEquipo(e);
+	    		}
+	    	}
+	    	
+	    }
 	    
-
-		
+	    		
 }

@@ -48,13 +48,11 @@ public class AgregarPartidosController implements Initializable{
     @FXML
     private Button boton_cancelar;
     
-    private Torneo torneo;
-    
+    private Torneo torneo;    
     
     public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		combo_sede.setItems(FXCollections.observableArrayList("Palermo","KDT"));
-		
+		combo_sede.setItems(FXCollections.observableArrayList("Palermo","KDT"));		
 		
 	}
 

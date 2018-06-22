@@ -16,4 +16,5 @@ public interface TorneoDao {
 	public List<Torneo> getTorneos();
 	
 	public Torneo obtenerTorneo(ObjectId id);
+	
 }

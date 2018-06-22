@@ -97,5 +97,14 @@ public class Torneo {
 		return this.nombre;
 	}
 	
+	@Override
+	public boolean equals(Object p) {
+		if(p!=null) {
+		Torneo aux = (Torneo)p;
+		return this.id.compareTo(aux.id) == 0;
+		} else return false;
+	}
+
 	
+		
 }

@@ -16,4 +16,5 @@ public interface PartidoDao {
 	public List<Partido> getPartidos();
 	
 	public Partido obtenerPartido(ObjectId id);
+
 }
