@@ -204,7 +204,7 @@ public class ExportadorPDF {
    	 	pdfDoc.setDefaultPageSize(PageSize.A4);//.rotate()
    	 	Document doc = new Document(pdfDoc);
    	 	//algoritmo
-   	 	armarHorarios(doc,listaPartidos);
+   	 	armarHorarios2(doc,listaPartidos);
         //CERRAR EL DOCUMENTO
         doc.close();
 	}
@@ -238,6 +238,29 @@ public class ExportadorPDF {
         	}
         	doc.add(tabla);
         }   
+	}
+	
+	private static void armarHorarios2(Document doc, List<Partido> partidos) throws MalformedURLException {
+		//LOGO
+        Image image = new Image(ImageDataFactory.create(ExportadorPDF.class.getResource(LOGO).toString()));
+        image.setWidthPercent(30);
+        image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        image.setMarginBottom(10);
+        doc.add(image);
+        
+        //TABLA HORARIOS
+        Table tabla = new Table(5); tabla.setMarginTop(10);
+    	tabla.addHeaderCell(new Cell(1,3).add("PARTIDO")); tabla.addHeaderCell("HORARIO");tabla.addHeaderCell("CANCHA");
+    	tabla.getHeader().setBackgroundColor(Color.BLACK);
+    	tabla.getHeader().setFontColor(Color.WHITE);
+        for(Partido p:partidos) {
+        	if(p.getVisitante()!=null && p.getLocal()!=null && !p.getHora().equals("23:59")) {
+    			tabla.addCell(new Cell(1,3).add(p.getLocal() + " vs " + p.getVisitante()));
+    			tabla.addCell(p.getHora()+" hs.");
+    			tabla.addCell("");
+    		}
+        }
+        doc.add(tabla);
 	}
 	
 	private static Torneo encontrarTorneo(Partido p) {
