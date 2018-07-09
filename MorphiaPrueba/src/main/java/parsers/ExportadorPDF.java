@@ -42,10 +42,11 @@ public class ExportadorPDF {
 	private static final String carpeta = "pdf";
 	private static final String LOGO = "/images/logo.png";
 	private static final String LIBRE = "LIBRE";
-	private static final String TBD = "TBD";
+	private static final String TBD = "23:59";
 	
-	public static void exportarPlanillasPDF(List<Partido> listaPartidos, String fecha) throws Exception{
-		String DEST = carpeta+"/"+ fecha+"-planillas.pdf";
+	
+	public static void exportarPlanillasPDF(List<Partido> listaPartidos, String nombreArchivo) throws Exception{
+		String DEST = carpeta+"/"+ nombreArchivo+"-planillas.pdf";
 		File file = new File(DEST);
         file.getParentFile().mkdirs();
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(file));

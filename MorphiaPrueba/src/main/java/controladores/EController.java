@@ -2,6 +2,8 @@ package controladores;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,6 +43,7 @@ import modelo.Jugador;
 import modelo.Partido;
 import modelo.Torneo;
 import parsers.ExportadorCSV;
+import parsers.ExportadorPDF;
 
 public class EController implements Initializable {
 	
@@ -76,6 +79,9 @@ public class EController implements Initializable {
 	    
 	    @FXML
 	    private TextField box_nombreJugador;
+	    
+	    @FXML
+	    private Button boton_eliminarJugador;
 
 	    @FXML
 	    private Button boton;
@@ -134,7 +140,30 @@ public class EController implements Initializable {
 
 	    @FXML
 	    void generarPDF(ActionEvent event) {
-
+	    	List<Partido> seleccionados = lista_partidos.getSelectionModel().getSelectedItems();
+	    	if(seleccionados!=null && !seleccionados.isEmpty()) {
+	    		try {
+	    			LocalDateTime nom = LocalDateTime.now(); 
+					ExportadorPDF.exportarPlanillasPDF(seleccionados, nom.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmm"))+"hs");
+					
+					//mensaje de exito
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Exito");
+					alert.setHeaderText(null);
+					alert.setContentText("Las planillas se han generado exixtosamente");
+					alert.showAndWait();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}else {
+	    		//mensaje error
+	    		Alert alert = new Alert(AlertType.ERROR);
+	    		alert.setTitle("Error");
+	    		alert.setHeaderText(null);
+	    		alert.setContentText("No se ha seleccionado ningún partido.");
+	    		alert.showAndWait();
+	    	}
 	    }
 
 	    @FXML
@@ -213,11 +242,27 @@ public class EController implements Initializable {
 	    		if(e!=null) {
 	    			EquipoDao daoE = new EquipoDaoMorphia();
 	    			e.agregarJugador(j);
-	    			lista_jugadores.getItems().add(j);
+	    			//lista_jugadores.getItems().add(j);
 	    			daoE.agregarEquipo(e);
+	    			lista_jugadores.setItems(FXCollections.observableArrayList(e.getJugadores()));
 	    		}
 	    	}
 	    	
+	    }
+	    
+	    @FXML
+	    void eliminarJugador(ActionEvent event) {
+	    	Jugador aEliminar = this.lista_jugadores.getSelectionModel().getSelectedItem();
+	    	if(aEliminar != null) {
+	    		Equipo equipo = this.lista_equipos.getSelectionModel().getSelectedItem();
+	    		equipo.getJugadores().remove(aEliminar);
+	    		JugadorDao	daoJ = new JugadorDaoMorphia();
+	    		daoJ.eliminarJugador(aEliminar);
+	    		EquipoDao daoE = new EquipoDaoMorphia();
+	    		daoE.agregarEquipo(equipo);
+	    		//por ultimo actualizamos la lista de jugadores visiblemente
+	    		this.lista_jugadores.setItems(FXCollections.observableList(equipo.getJugadores()));
+	    	}
 	    }
 	    
 	    		

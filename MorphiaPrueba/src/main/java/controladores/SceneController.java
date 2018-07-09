@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import modelo.Torneo;
@@ -68,5 +72,6 @@ public class SceneController {
 			e.printStackTrace();
 		}
     }
-      
+    
+         
 }

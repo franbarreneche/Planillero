@@ -43,6 +43,7 @@
                               <Label text="Nombre: " />
                               <TextField fx:id="box_nombreJugador" prefHeight="25.0" prefWidth="250.0" />
                               <Button fx:id="boton_agregarJugador" mnemonicParsing="false" onAction="#agregarJugador" text="Agregar" />
+                              <Button fx:id="boton_eliminarJugador" mnemonicParsing="false" onAction="#eliminarJugador" text="Eliminar" />
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

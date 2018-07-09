@@ -30,6 +30,9 @@ public class GenerarPlanillasController implements Initializable {
 
     @FXML
     private Button boton_generarPlanillasPartidos;
+    
+    @FXML
+    private Button boton_volver;
 
     @FXML
     private DatePicker box_dia;
@@ -79,6 +82,11 @@ public class GenerarPlanillasController implements Initializable {
 		}
     }
 	
+    @FXML
+    void volverAPrincipal(ActionEvent event) {
+    	//volver al principio
+    	SceneController.getInstance().activatePrincipal();
+    }
 	
 
 }

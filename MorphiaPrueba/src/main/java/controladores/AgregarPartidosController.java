@@ -110,6 +110,12 @@ public class AgregarPartidosController implements Initializable{
     public void setTorneo(Torneo t) {
     	this.torneo = t;
     }
+    
+    @FXML
+    void volverAPrincipal(ActionEvent event) {
+    	//volver al principio
+    	SceneController.getInstance().activatePrincipal();
+    }
 
 	
 }

@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Index;
+import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity("equipos")
+@Indexes({
+    @Index(fields = @Field("nombre"))
+})
 public class Equipo {
 	@Id
 	protected ObjectId id;

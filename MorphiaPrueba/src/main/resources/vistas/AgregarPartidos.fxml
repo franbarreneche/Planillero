@@ -59,7 +59,7 @@
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1000.0" spacing="20.0">
                <children>
                   <Button fx:id="boton_cargar" mnemonicParsing="false" onAction="#cargarPartidos" text="Agregar" />
-                  <Button fx:id="boton_cancelar" mnemonicParsing="false" text="Cancelar" />
+                  <Button fx:id="boton_cancelar" mnemonicParsing="false" onAction="#volverAPrincipal" text="Cancelar" />
                </children>
                <VBox.margin>
                   <Insets />
