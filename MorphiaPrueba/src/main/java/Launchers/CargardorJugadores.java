@@ -53,7 +53,7 @@ public class CargardorJugadores {
 		    	TorneoDao dao = new TorneoDaoMorphia();
 		    	dao.agregarTorneo(t);
 		    }
-		}
+		} 
 		
 		return resultado; 
 	}

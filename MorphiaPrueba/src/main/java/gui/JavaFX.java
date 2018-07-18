@@ -36,4 +36,4 @@ public class JavaFX extends Application{
 		controladorescenas.activatePrincipal();
 	}
 	
-}
+} 

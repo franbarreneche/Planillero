@@ -36,7 +36,7 @@ public class Partido implements Comparable<Partido>{
 		this.hora = hora;
 		this.fecha = fecha;
 		this.matchday = matchday;
-	}
+	} 
 	
 	//setters
 	public void setLocal(Equipo equipo1) {

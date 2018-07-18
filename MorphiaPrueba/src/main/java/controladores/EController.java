@@ -48,7 +48,7 @@ import parsers.ExportadorPDF;
 public class EController implements Initializable {
 	
 	   @FXML
-	    private Button boton_agregarFecha;
+	    private Button boton_agregarFecha; 
 
 	    @FXML
 	    private Button boton_csv;

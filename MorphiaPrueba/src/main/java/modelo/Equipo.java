@@ -45,7 +45,7 @@ public class Equipo {
 	
 	public void agregarJugador(Jugador j) {
 		this.jugadores.add(j);
-	}
+	} 
 	
 	
 	//getters

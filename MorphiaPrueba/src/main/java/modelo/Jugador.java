@@ -34,7 +34,7 @@ public class Jugador {
 	//setters
 	public void setNombre(String n) {
 		this.nombre = n;
-	}
+	} 
 	
 	//getters
 	public String getNombre() {

@@ -59,8 +59,9 @@ public class ExportadorPDF {
     		   if(listaPartidos.get(listaPartidos.size()-1)!= p)doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
     	   }
        }
-             //CERRAR EL DOCUMENTO
-             doc.close();
+       //CERRAR EL DOCUMENTO
+       doc.close();
+       ExportadorDrive.exportarPlanillasDrive(file);
 	}
 	
 	private static void armarPlanilla(Document doc, Partido p) throws MalformedURLException {
@@ -208,6 +209,7 @@ public class ExportadorPDF {
    	 	armarHorarios2(doc,listaPartidos);
         //CERRAR EL DOCUMENTO
         doc.close();
+        ExportadorDrive.exportarPlanillasDrive(file);
 	}
 	
 	private static void armarHorarios(Document doc, List<Partido> partidos) throws MalformedURLException {

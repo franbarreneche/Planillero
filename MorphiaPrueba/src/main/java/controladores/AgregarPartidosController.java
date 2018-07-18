@@ -28,7 +28,7 @@ import modelo.Torneo;
 
 public class AgregarPartidosController implements Initializable{
 	@FXML
-    private TextField texto_matchday;
+    private TextField texto_matchday; 
 
     @FXML
     private ComboBox<String> combo_sede;
@@ -48,7 +48,7 @@ public class AgregarPartidosController implements Initializable{
     @FXML
     private Button boton_cancelar;
     
-    private Torneo torneo;    
+    private Torneo torneo;   
     
     public void initialize(URL arg0, ResourceBundle arg1) {
 		

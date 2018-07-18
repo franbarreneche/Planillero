@@ -29,7 +29,7 @@ public class GenerarPlanillasController implements Initializable {
     private ComboBox<?> combo_sede;
 
     @FXML
-    private Button boton_generarPlanillasPartidos;
+    private Button boton_generarPlanillasPartidos; 
     
     @FXML
     private Button boton_volver;

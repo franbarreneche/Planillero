@@ -22,7 +22,7 @@ public class EquipoDaoMorphia implements EquipoDao{
 
 	public void eliminarEuqipo(Equipo e) {
 		db.delete(e);
-	}
+	} 
 
 	public void actualizarEquipo(Equipo e) {
 		// TODO Auto-generated method stub

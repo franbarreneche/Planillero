@@ -17,4 +17,4 @@ public interface EquipoDao {
 	
 	public Equipo obtenerEquipo(ObjectId id);
 
-}
+} 

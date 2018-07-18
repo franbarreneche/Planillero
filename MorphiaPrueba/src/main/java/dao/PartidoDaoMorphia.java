@@ -28,7 +28,7 @@ public class PartidoDaoMorphia implements PartidoDao {
 	public void actualizarPartido(Partido p) {
 		// TODO Auto-generated method stub
 		
-	}
+	} 
 
 	public List<Partido> getPartidos() {
 		final Query<Partido> query = db.createQuery(Partido.class);

@@ -30,7 +30,7 @@ public class SceneController {
     public static SceneController getInstance(Stage main) {
     	instancia = new SceneController(main);
     	return instancia;
-    }
+    } 
     
     //activadores
     public void activatePrincipal(){

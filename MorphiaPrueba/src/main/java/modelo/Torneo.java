@@ -48,8 +48,7 @@ public class Torneo {
 	
 	public void agregarEquipo(Equipo e) {
 		this.equipos.add(e);
-	}
-	
+	}	
 	public void setPartidos(List<Partido> p) {
 		this.partidos = p;
 	}
